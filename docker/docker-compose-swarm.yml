@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  node:
+    image: hyperledger/iroha-docker:develop
+    ports:
+      - "50051:50051"
+    depends_on:
+      - postgres
+    tty: true
+    volumes:
+      - /tmp/entrypoint.sh:/opt/iroha_data/entrypoint.sh
+    entrypoint: /opt/iroha_data/entrypoint.sh
+
+  postgres:
+    image: postgres:9.5
+    environment:
+      - POSTGRES_USER=iroha
+      - IROHA_POSTGRES_PASSWORD=helloworld
+
+networks:
+  default:
+    external:
+      name: iroha_network

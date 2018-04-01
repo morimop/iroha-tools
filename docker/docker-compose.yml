@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  node:
+    image: hyperledger/iroha-docker:develop
+    ports:
+      - "50051:50051"
+    depends_on:
+      - postgres
+    tty: true
+    volumes:
+      - ./script/:/opt/iroha_data
+    entrypoint: /opt/iroha_data/entrypoint.sh
+    #command: bash -c "touch /iroha.log && tail -f /iroha.log"
+    #command: /bin/bash
+
+  postgres:
+    image: postgres:9.5
+    environment:
+      - POSTGRES_USER=iroha
+      - IROHA_POSTGRES_PASSWORD=helloworld
+
