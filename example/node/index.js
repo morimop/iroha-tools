@@ -15,6 +15,13 @@ function blob2array (blob) {
   return bytearray
 }
 
+var toriiNode = ""
+if (process.argv.length > 2) {
+  toriiNode = process.argv[2];
+} else {
+  toriiNode = "localhost";
+}
+
 var iroha = require('iroha-lib')
 var txBuilder = new iroha.ModelTransactionBuilder()
 var queryBuilder = new iroha.ModelQueryBuilder()
@@ -52,7 +59,7 @@ console.log(protoTx.getPayload().getCreatorAccountId())
 var grpc = require('grpc')
 var endpointGrpc = require('iroha-lib/pb/endpoint_grpc_pb.js')
 var client = new endpointGrpc.CommandServiceClient(
-  'localhost:50051',
+  toriiNode+':50051',
   grpc.credentials.createInsecure()
 )
 var txHashBlob = tx.hash().blob()
@@ -115,7 +122,7 @@ p
     let queryArray = blob2array(queryBlob)
     let protoQuery = pbQuery.deserializeBinary(queryArray)
     let client = new endpointGrpc.QueryServiceClient(
-      'localhost:50051',
+      toriiNode+':50051',
       grpc.credentials.createInsecure()
     )
     return new Promise((resolve, reject) => {
