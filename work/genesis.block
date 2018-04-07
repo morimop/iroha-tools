@@ -1,7 +1,7 @@
 {
     "signatures": [],
     "created_ts": 0,
-    "hash": "aac7f812adaa0410f353df0c1ccf0ac4431b2535ac071a658d7ce15dbc18f3db",
+    "hash": "cec7dc498e2de27c054c337b306b1a0749bcaaed652edb17628d1ddb412ae197",
     "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
     "height": 1,
     "txs_number": 1,
@@ -16,28 +16,28 @@
                     "command_type": "AddPeer",
                     "peer": {
                         "address": "10.0.0.7:10001",
-                        "peer_key": "032507028f4860b60e90dc921e2d07507c9b1056ad282cbc186580d67791f642"
+                        "peer_key": "bd71b3f5e833ca81fabf0b78b9ec8159dd3fb3fef38ff3fb9fd600bdb48536f9"
                     }
                 },
                 {
                     "command_type": "AddPeer",
                     "peer": {
                         "address": "10.0.0.9:10001",
-                        "peer_key": "3a1569ee6fc25a8ce66b8e26a76b37387e375e368c625ac81057175e82453d5b"
+                        "peer_key": "fd1715b9f8036095d5c577429c74da68eeb174122b7ad7d53efb5b734a38b8b8"
                     }
                 },
                 {
                     "command_type": "AddPeer",
                     "peer": {
                         "address": "10.0.0.11:10001",
-                        "peer_key": "a904d6f5c6c763ea8bd9ac9a35ae9672b5a1106631a65274d17f1808852fecaf"
+                        "peer_key": "731ee5f384e5508c8e4538227603ba5f2f7c3f97bc5014e806fef725b86d241a"
                     }
                 },
                 {
                     "command_type": "AddPeer",
                     "peer": {
                         "address": "10.0.0.13:10001",
-                        "peer_key": "3fde26539b7b2ea185940a3ed27599c5e135f8d93b8c988855b75370eb2e3da6"
+                        "peer_key": "d0c4b46e926945a9e5113b298d51b201c4da77ff1a4e40e8d74841bef4f6b804"
                     }
                 },
                 {
@@ -109,13 +109,13 @@
                     "command_type": "CreateAccount",
                     "account_name": "admin",
                     "domain_id": "test",
-                    "pubkey": "3b1c814e61a09b53017ffa6320f5231b4f0a159707b1f301cdf6e9fcf55127a7"
+                    "pubkey": "9ea56624315d3ae2c4e3db1072ecd8767e97ed7afeffcc858db491bc3cbb1dab"
                 },
                 {
                     "command_type": "CreateAccount",
                     "account_name": "test",
                     "domain_id": "test",
-                    "pubkey": "ea1e4f8479ce94d41afb8d1e2fc4b7e61f6823b16e00b697ecf46845676bd7aa"
+                    "pubkey": "5dbf2b81685313da853fe2e2e2ff31ee815237276e2570460d733cb1ae31f0dd"
                 },
                 {
                     "command_type": "AppendRole",
