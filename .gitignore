@@ -62,3 +62,8 @@ package-lock.json
 
 # working directories
 work/
+
+# exclude iroha pub/priv signature
+*.pub
+*.prev
+
