@@ -1,9 +1,10 @@
 /**
- * transfer asset
+ * transfer asset, wait status
  * SPDX-License-Identifier: Apache-2.0
  */
 
 'use strict'
+process.on('unhandledRejection', console.dir);
 
 function blob2array (blob) {
   var bytearray = new Uint8Array(blob.size())
@@ -20,9 +21,9 @@ if (process.argv.length > 2) {
   toriiNode = "localhost";
 }
 const loopCount = (process.argv.length > 3) ? process.argv[3] : 10
-const waitInterval = (process.argv.length > 4) ? process.argv[4] : 0
+const delayMilisec = (process.argv.length > 4) ? process.argv[4] : 100
 console.log('['+Date.now()+'] START client > ' +
-  'number of tx:',loopCount,', wait per',waitInterval,' txs')
+  'number of tx:',loopCount,', delay',delayMilisec,' milisec.')
 
 var iroha = require('iroha-lib')
 var txBuilder = new iroha.ModelTransactionBuilder()
@@ -53,6 +54,7 @@ var stsRequest = new endpointPb.TxStatusRequest()
 
 const descriptionStr = ''
 let txHash = ''
+let hashForLog = ''
 
 var p = new Promise((res, rej) => {
   console.log('start loop')
@@ -73,25 +75,51 @@ var p = new Promise((res, rej) => {
       var blockTransaction = require('iroha-lib/pb/block_pb.js').Transaction // block_pb2.Transaction()
       var protoTx = blockTransaction.deserializeBinary(txArray)
       
-      //txHash = blob2array(tx.hash().blob())
-      console.log('['+Date.now()+'],'+tx.hash()+'[loop]Submit transaction...:'+i)
+      txHash = blob2array(tx.hash().blob())
+      hashForLog = tx.hash()
+
+      console.log('['+Date.now()+'],'+hashForLog+'[loop]Submit transaction...:'+i)
       client.torii(protoTx, (err, data) => {
         if (err) {
           console.log('[loop]ERROR occured at submitting transaction')
+          reject(new Error("submit error"))
         } else {
           console.log('[loop]Submitted transaction successfully')
+          resolve(i)
         }
-        resolve(i+1)
       })
     }).then((count) => {
-      if (waitInterval==0) return sleep(1,count)
-      const wait = ((count % waitInterval) == 0) ? 5000 : 1
-      return sleep(wait, count)
+      return sleep(delayMilisec,count)
+    }).then((ct) => {
+      return new Promise((resolve, reject) => {
+        function waitStatus() {
+          stsRequest.setTxHash(txHash)
+          client.status(stsRequest, (err, response) => {
+            if (err) {
+              reject(err)
+            } else {
+              let status = response.getTxStatus()
+              if (status == 4) { // COMMITTED: 4
+                // next
+                console.log('['+Date.now()+'],'+hashForLog+'[loop]transaction comitted')
+                resolve(ct)
+              } else if (status == 0 || status == 2 || status == 6) { // STATELESS_VALIDATION_FAILED: 0,STATEFUL_VALIDATION_FAILED: 2, NOT_RECEIVED: 6
+                reject(new Error("Unexpected Status:" + status))
+              } else {
+                // wait delayMilisec
+                //setTimeout(()=>{waitStatus()},delayMilisec)
+                waitStatus()
+              }
+            }
+          })
+        }
+        waitStatus()
+      })
     }).then((count)=>{
-      if(count > loopCount) {
+      if(count >= loopCount) {
         res()
       } else {
-        loop(count)
+        loop(count+1)
       }
     })
   }
@@ -100,7 +128,6 @@ var p = new Promise((res, rej) => {
 
 p
   .then(() => {
-    txHash = blob2array(tx.hash().blob())
     console.log('Sleep 5 seconds...')
     return sleep(5000,0)
   })

@@ -70,8 +70,8 @@ do
       \"torii_port\" : 50051,
       \"internal_port\" : 10001,
       \"pg_opt\" : \"host=${COMPOSE_PROJECT_NAME}_postgres_1 port=5432 user=iroha password=helloworld\",
-      \"max_proposal_size\" : 1000,
-      \"proposal_delay\" : 5000,
+      \"max_proposal_size\" : 10000,
+      \"proposal_delay\" : 50000,
       \"vote_delay\" : 100,
       \"load_delay\" : 5000
     }" > ${WORK_DIR}/iroha.conf
