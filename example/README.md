@@ -1,3 +1,4 @@
 # Examples
 
-<!-- TODO l4l 06/03/18: IR-1053 -->
+- Java,python: devlopブランチから持ってきたそのまま
+- node: 若干改変、追加

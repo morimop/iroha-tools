@@ -1,3 +1,12 @@
+- index.js: 引数にToriiのIP/Hostを受け取るように修正
+- `nodejs setup.js [torii ip or host] [add Amount(format #9.99)]`
+    - admin@testのcoin#testに指定額を追加
+- `nodejs query.js [torii ip or host]`
+    - admin@test,test@testのcoin#testのBalanceを確認
+- `nodejs transfer.js [torii ip or host] [# of tx] [wait ms per tx]`
+    - admin@textからtest@testへ資金転送（金額固定）
+
+# 以下は元のドキュメント
 # NodeJS client library example
 
 ## Prerequisites
