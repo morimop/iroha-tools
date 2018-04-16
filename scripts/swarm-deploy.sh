@@ -9,6 +9,12 @@ WORK_DIR="$IROHA_HOME"/work
 mkdir ${WORK_DIR}
 export COMPOSE_FILE=${IROHA_HOME}/docker/docker-compose-swarm.yml
 
+# check entrypoint.sh
+if [ ! -f "$IROHA_HOME/docker/script/entrypoint.sh" ]; then
+    echo "entrypoint.sh not found"
+    exit 1
+fi
+
 # create empty file for list of peers
 > ${WORK_DIR}/peers.list
 # append each peer to the file
